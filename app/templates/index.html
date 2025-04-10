@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter Bot Detector</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f8fa;
+            color: #14171a;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 40px;
+        }
+        
+        h1 {
+            color: #1da1f2;
+            margin-bottom: 10px;
+        }
+        
+        .description {
+            color: #657786;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        .input-box {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        #tweet-url {
+            padding: 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        #tweet-url:focus {
+            border-color: #1da1f2;
+            outline: none;
+        }
+        
+        #tweet-url::placeholder {
+            color: #aab8c2;
+        }
+        
+        #analyze-btn {
+            background-color: #1da1f2;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        #analyze-btn:hover {
+            background-color: #1991db;
+        }
+        
+        #result-container {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #f5f8fa;
+            text-align: left;
+        }
+        
+        .loading {
+            display: none;
+            margin: 20px 0;
+        }
+        
+        .error {
+            color: #e0245e;
+            margin-top: 20px;
+        }
+        
+        .twitter-icon {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 15px;
+        }
+        
+        footer {
+            margin-top: 40px;
+            color: #657786;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://abs.twimg.com/favicons/twitter.ico" alt="Twitter" class="twitter-icon">
+        <h1>Twitter Bot Detector</h1>
+        <p class="description">Paste a Tweet URL below to analyze whether it was posted by a bot or human</p>
+        
+        <div class="input-box">
+            <input type="text" id="tweet-url" placeholder="https://twitter.com/username/status/123456789..." autocomplete="off">
+            <button id="analyze-btn">Analyze Tweet</button>
+        </div>
+        
+        <div class="loading" id="loading-spinner">
+            <p>Analyzing... This may take a few seconds</p>
+        </div>
+        
+        <div id="result-container">
+            <h2>Analysis Result</h2>
+            <div id="result-content"></div>
+        </div>
+        
+        <div class="error" id="error-message"></div>
+    </div>
+    
+    <footer>
+        Powered by machine learning | Accuracy: 96%
+    </footer>
+
+    <script>
+        document.getElementById('analyze-btn').addEventListener('click', async function() {
+            const tweetUrl = document.getElementById('tweet-url').value.trim();
+            const resultContainer = document.getElementById('result-container');
+            const resultContent = document.getElementById('result-content');
+            const errorMessage = document.getElementById('error-message');
+            const loadingSpinner = document.getElementById('loading-spinner');
+            
+            // Reset UI
+            resultContainer.style.display = 'none';
+            errorMessage.textContent = '';
+            
+            // Validate URL
+            if (!tweetUrl) {
+                errorMessage.textContent = 'Please enter a Tweet URL';
+                return;
+            }
+            
+            if (!tweetUrl.includes('twitter.com/') && !tweetUrl.includes('x.com/')) {
+                errorMessage.textContent = 'Please enter a valid Twitter/X URL';
+                return;
+            }
+            
+            // Show loading
+            loadingSpinner.style.display = 'block';
+            
+            try {
+                // Send to your Flask backend
+                const response = await fetch('/analyze', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ url: tweetUrl })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Display results
+                    resultContent.innerHTML = `
+                        <p><strong>Bot Probability:</strong> ${(data.bot_probability * 100).toFixed(1)}%</p>
+                        <p><strong>Verdict:</strong> ${data.is_bot ? '🤖 Likely a bot' : '👤 Likely human'}</p>
+                        ${data.features ? `
+                        <details>
+                            <summary>Technical Details</summary>
+                            <pre>${JSON.stringify(data.features, null, 2)}</pre>
+                        </details>
+                        ` : ''}
+                    `;
+                    resultContainer.style.display = 'block';
+                } else {
+                    errorMessage.textContent = data.message || 'Analysis failed';
+                }
+            } catch (error) {
+                errorMessage.textContent = 'Network error - please try again:' + error;
+            } finally {
+                loadingSpinner.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
