@@ -1,0 +1,9 @@
+flask
+flask-sqlalchemy
+flask-migrate
+flask-wtf
+python-dotenv
+tweepy
+scikit-learn
+joblib
+numpy
