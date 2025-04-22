@@ -1,11 +1,13 @@
 import numpy as np
-from ML.randomforest import RandomForest
+from randomforest import RandomForest
 from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from ML.preproc import preprocess_tweet_data
-from ML.preproc import combine_data
+from preproc import preprocess_tweet_data
+from preproc import combine_data
 import logging
+import joblib
+from pathlib import Path
 
 
 #TEST
@@ -54,8 +56,18 @@ def run_forest(nrTrees, maxDepth):
     logger.info("RandomForest started")
     forest = RandomForest(nrTrees, maxDepth)
     forest.fit(X_train, y_train)
+
+    model_path = Path("bot_detection_model.pkl")
+    joblib.dump(forest, model_path)
+    logger.info(f"Model saved to {model_path}")
+
+
     predictions = forest.predict(X_test)
     acc_value = acc(y_test, predictions)
     logger.info(f"Accuracy: {acc_value}")
     print("Accuracy: ", acc_value)
     logger.info("RandomForest Ended")
+
+
+if __name__ == "__main__":
+    run_forest(15,20)

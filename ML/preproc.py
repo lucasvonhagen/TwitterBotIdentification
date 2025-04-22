@@ -3,8 +3,8 @@ import pandas as pd
 
 def combine_data():
     #Load the bot and human tweets datasets
-    bot_tweets = pd.read_csv("all_50_bot_tweets.csv")
-    human_tweets = pd.read_csv("all_50_human_tweets.csv")
+    bot_tweets = pd.read_csv("data/all_50_bot_tweets.csv")
+    human_tweets = pd.read_csv("data/all_50_human_tweets.csv")
 
     #Adds a "Bot Label" column
     bot_tweets['Bot Label'] = 1  # 1 for bots

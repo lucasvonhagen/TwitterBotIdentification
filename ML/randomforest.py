@@ -1,4 +1,4 @@
-from ML.decisiontree import DecisionTree
+from decisiontree import DecisionTree
 import numpy as np
 from collections import Counter
 import logging
