@@ -7,7 +7,7 @@ import numpy as np
 
 #Load model
 try:
-    model = joblib.load('bot_detection_model.pkl') #FIX REAL MODEL
+    model = joblib.load('bot_detection_model.pkl')
 except:
     model = None
 
@@ -19,7 +19,10 @@ def index():
 @app.route('/analyze', methods=['POST'])
 def analyze_tweet():
     data = request.get_json()
+    print(f"DATA | {data}")
+
     tweet_url = data.get('url', '').strip()
+    print(f"URL | {tweet_url}")
     
     if not tweet_url:
         return jsonify({'message': 'No URL provided'}), 400
@@ -39,6 +42,7 @@ def analyze_tweet():
         
         #Convert features to array in the correct order
         feature_array = np.array([[features[feature] for feature in feature_order]])
+        print(f"FEATURES | " + str({feature_array}))
         
         #Make prediction
         if model:

@@ -141,11 +141,11 @@
             const errorMessage = document.getElementById('error-message');
             const loadingSpinner = document.getElementById('loading-spinner');
             
-            // Reset UI
+            //Reset UI
             resultContainer.style.display = 'none';
             errorMessage.textContent = '';
             
-            // Validate URL
+            //Validate URL
             if (!tweetUrl) {
                 errorMessage.textContent = 'Please enter a Tweet URL';
                 return;
@@ -156,11 +156,11 @@
                 return;
             }
             
-            // Show loading
+            //Show loading
             loadingSpinner.style.display = 'block';
             
             try {
-                // Send to your Flask backend
+                //Send to flask backend
                 const response = await fetch('/analyze', {
                     method: 'POST',
                     headers: {
