@@ -104,6 +104,20 @@
             color: #657786;
             font-size: 14px;
         }
+
+        .spinner {
+        border: 4px solid rgba(0, 0, 0, 0.1);
+        border-radius: 50%;
+        border-top: 4px solid #1da1f2;
+        width: 30px;
+        height: 30px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 10px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -118,7 +132,8 @@
         </div>
         
         <div class="loading" id="loading-spinner">
-            <p>Analyzing... This may take a few seconds</p>
+            <div class="spinner"></div>
+            <p>Analyzing tweet...</p>
         </div>
         
         <div id="result-container">
@@ -130,7 +145,7 @@
     </div>
     
     <footer>
-        Powered by machine learning | Accuracy: 96%
+        Powered by a Random Forest algorithm
     </footer>
 
     <script>
