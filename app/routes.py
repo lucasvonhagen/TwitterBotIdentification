@@ -1,6 +1,6 @@
 from flask import render_template, request, jsonify
 from app import app
-from scraper import get_tweet_data
+from . import scraper
 import joblib
 import os
 import numpy as np
@@ -29,7 +29,7 @@ def analyze_tweet():
     
     try:
         #Get features
-        features = get_tweet_data(tweet_url)
+        features = scraper.get_tweet_data(tweet_url)
         
         #Prepare features
         feature_order = [
