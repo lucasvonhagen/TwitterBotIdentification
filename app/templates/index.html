@@ -94,9 +94,10 @@
         }
         
         .twitter-icon {
-            width: 40px;
-            height: 40px;
-            margin-bottom: 15px;
+            width: 150px;
+            height: 150px;
+            margin-bottom: 5px;
+            
         }
         
         footer {
@@ -122,7 +123,7 @@
 </head>
 <body>
     <div class="container">
-        <img src="https://abs.twimg.com/favicons/twitter.ico" alt="Twitter" class="twitter-icon">
+        <img src="{{ url_for('static', filename='noun-robot-4679196.svg') }}" alt="Robot Icon" class="twitter-icon">
         <h1>Twitter Bot Detector</h1>
         <p class="description">Paste a Tweet URL below to analyze whether it was posted by a bot or human</p>
         
