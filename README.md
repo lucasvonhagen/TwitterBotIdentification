@@ -3,4 +3,6 @@
 
 ![alt text](https://github.com/lucasvonhagen/TwitterBotIdentification/blob/main/app/static/githubreadme.png "Index site")
 ML algorithm used is __Random Forest__ created from scratch with 96% accuaracy.
-Application uses Flask and will use PostgreSQL for backend.
+Application is built with Flask and will use PostgreSQL for backend.
+
+*Remember to add own API keys in a .env file*
