@@ -7,8 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def get_tweet_data(tweet_url):
-    """Extract tweet data and convert to features matching preproc.py"""
-    #Extract tweet ID from URL
+    #Extract tweet data and convert to features
     tweet_id = tweet_url.split('/')[-1]
     
     #Initialize Twitter API client
