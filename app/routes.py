@@ -44,7 +44,7 @@ def analyze_tweet():
         feature_array = np.array([[features[feature] for feature in feature_order]])
         print(f"FEATURES | " + str({feature_array}))
         
-        #Make prediction
+        #Make prediction, not finished
         if model:
             bot_probability = model.predict_proba(feature_array)[0][1]
             print("PROB: " + bot_probability)
