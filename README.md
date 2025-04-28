@@ -5,4 +5,4 @@
 ML algorithm used is __Random Forest__ created from scratch with 96% accuaracy.
 Application is built with Flask and will use PostgreSQL for backend.
 
-*Remember to add own API keys in a .env file*
+*Application not fully complete, yet*
